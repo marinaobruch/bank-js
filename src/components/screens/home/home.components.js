@@ -1,6 +1,6 @@
 export class Home {
     render(){
 
-        return <p>Home</p>
+        return "<p>Home</p>"
     }
 }
