@@ -15,6 +15,12 @@ class RenderService {
 
         // здесь избавляемся от обертки template, забирая у нее первый Child элемент, что является html элементом (не строка)
         const element = template.content.firstChild
+
+        // метод для определения стилей
+        if (styles) {
+			this.#applyModuleStyles(styles, element)
+		}
+
         // метод будет принимать element, с которым нужно работать и в которым будем всё вкладывать, и components, которые будут задействованы в этом компоненте
         this.#replaceComponentTags(element, components)
 
@@ -69,6 +75,36 @@ class RenderService {
             }
         }
     }
+
+    /**
+	 * @param {Object} moduleStyles
+	 * @param {string} element
+	 * @returns {void}
+	 */
+
+    // moduleStyles - модульные стили, сгенерированные модульными классами, element - родительский блок
+	#applyModuleStyles(moduleStyles, element) {
+		if (!element) return
+
+        // функция будет "пробегаться" по массиву всех классов, и если такой класс присутствует, он его заменяет на новый сгенерированный класс
+		const applyStyles = element => {
+			for (const [key, value] of Object.entries(moduleStyles)) {
+				if (element.classList.contains(key)) {
+					element.classList.remove(key)
+					element.classList.add(value)
+				}
+			}
+		}
+
+        // применение стилей для родительского тега
+		if (element.getAttribute('class')) {
+			applyStyles(element)
+		}
+
+        // применение стилей для всех тегов-детей
+		const elements = element.querySelectorAll('*')
+		elements.forEach(applyStyles)
+	}
 }
 
 export default new RenderService()
