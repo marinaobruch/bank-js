@@ -1,5 +1,10 @@
-export class Layout {
+import renderService from "@/core/services/render.service"
 
+import styles from './layout.module.scss'
+import template from "./layout.template.html"
+import { $R } from "@/core/query/query.lib"
+import { Header } from "./header/header.component"
+export class Layout {
 	// принимаем пропсы из компонента router через деструктуризацию
 	constructor({ router, children }) {
 		this.router = router
@@ -7,21 +12,22 @@ export class Layout {
 	}
 
 	render() {
-		const headerHTML = 
-		`<header>
-			Header
-			<nav>
-				<a href="/">Home</a>
-				<a href="/auth">Auth</a>
-				<a href="/about-us">AboutUs</a>
-			</nav>
-		</header>`
+		this.element = renderService.htmlToElement(template, [], styles)
 
-		return `
-			${headerHTML}
-			<main>
-				${this.children}
-			</main>
-		`
+		// ищем main блок (типа контейнера)
+		const mainElement = $R(this.element).find("main")
+
+		// ищем content блок (в html layout)
+		const contentContainer = $R(this.element).find("#content")
+		// добавляем приходящий сюда children, но далее его нужно будет добавить
+		contentContainer.append(this.children)
+
+
+		// с помощью append добавляем этот элемент, а с помощью before "закидываем" его выше блока main
+		mainElement
+		.before(new Header().render())
+		.append(contentContainer.element)
+
+		return this.element
 	}
 }
