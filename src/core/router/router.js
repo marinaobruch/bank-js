@@ -2,6 +2,7 @@ import { NotFound } from "@/components/screens/not-found/not-found.components";
 import { Layout } from "@/components/layout/layout.component";
 
 import { ROUTES } from "./routes.data";
+import { $R } from "../query/query.lib";
 
 export class Router {
     #routes = ROUTES
@@ -65,20 +66,23 @@ export class Router {
 	#render() {
         // здесь мы возьмем из currentRoute (определили на пред.шаге) ключ component
         // пишем new, тк здесь мы получаем класс (компонент) и нам нужно его здесь раскрыть
-		const component = new this.#currentRoute.component()
+        // сразу рендерим записью "component.render()", тк в каждом компоненте есть свое свойство render
+		const component = new this.#currentRoute.component().render()
 
         // запись "router: this" означает, что мы передаем весь класс Router, 
         // и все его методы (кроме приватных) будут доступны для вызова извне
 
-        // записью "component.render()" мы будет забирать компонент и вызывать его render
+        // проверка если обертки еще нет, то мы ее создаем (при переходе между страницами этот шаг будет пропускаться, тк обертка уже будет инициализирована)
 		if (!this.#layout) {
 			this.#layout = new Layout({
 				router: this,
-				children: component.render()
-			})
-			document.getElementById('app').innerHTML = this.#layout.render()
+				children: component
+			}).render()
+
+            $R("#app").append(this.#layout)
 		} else {
-			document.querySelector('main').innerHTML = component.render()
+            // здесь мы сначала контент отчищаем html(""), а затем аппендим наш component
+            $R("#content").html("").append(component)
 		}
 	}
 }
