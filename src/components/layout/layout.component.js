@@ -4,9 +4,12 @@ import styles from './layout.module.scss'
 import template from "./layout.template.html"
 import { $R } from "@/core/query/query.lib"
 import { Header } from "./header/header.component"
-export class Layout {
+import ChildComponent from "@/core/component/child.component"
+export class Layout extends ChildComponent {
 	// принимаем пропсы из компонента router через деструктуризацию
 	constructor({ router, children }) {
+		super()
+		
 		this.router = router
 		this.children = children
 	}

@@ -75,6 +75,20 @@ class RQuery {
 		}
 	}
 
+    /**
+	 * Get or set the inner HTML of the selected element.
+	 * @param {string} [htmlContent] - Optional HTML content to set. If not provided, the current inner HTML will be returned.
+	 * @returns {RQuery|string} The current RQuery instance for chaining when setting HTML content, or the current inner HTML when getting.
+	 */
+	html(htmlContent) {
+		if (typeof htmlContent === 'undefined') {
+			return this.element.innerHTML
+		} else {
+			this.element.innerHTML = htmlContent
+			return this
+		}
+	}
+
 	/**
 	 * Set the CSS style of the selected element.
 	 * @param {string} property - The CSS property to set.
