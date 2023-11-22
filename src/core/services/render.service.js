@@ -8,7 +8,7 @@ class RenderService {
 	 * @returns {HTMLElement}
 	 */
     htmlToElement(html, components = [], styles) {
-        // тег template по сути представляет собой обертку (пустой тег) для будушего кода html
+        // тег template по сути представляет собой обертку (пустой тег) для будущего кода html
         const template = document.createElement("template")
         // далее в template заносит наш html код, который приходит извне как пропс
         template.innerHTML = html.trim()

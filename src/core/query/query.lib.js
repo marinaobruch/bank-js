@@ -36,7 +36,7 @@ class RQuery {
 	 * @returns {RQuery} A new RQuery instance for the found element.
 	 */
 
-    // здесь мы идем по цепочке из демо-кода в 1й строке, те ищем элемент из текущего контекста
+  // здесь мы идем по цепочке из демо-кода в 1й строке, те ищем элемент из текущего контекста
 	find(selector) {
 		const element = new RQuery(this.element.querySelector(selector))
 
@@ -49,7 +49,7 @@ class RQuery {
 
 		/* INSERT */
 
-    /**
+  /**
 	 * Append a new element as a child of the selected element.
 	 * @param {HTMLElement} childElement - The new child element to append.
 	 * @returns {RQuery} The current RQuery instance for chaining.
@@ -59,7 +59,7 @@ class RQuery {
         return this
     }
 
-    /**
+  /**
 	 * Insert a new element before the selected element.
 	 * @param {HTMLElement} newElement - The new element to insert before the selected element.
 	 * @returns {RQuery} The current RQuery instance for chaining.
@@ -80,7 +80,7 @@ class RQuery {
 		}
 	}
 
-    /**
+  /**
 	 * Get or set the inner HTML of the selected element.
 	 * @param {string} [htmlContent] - Optional HTML content to set. If not provided, the current inner HTML will be returned.
 	 * @returns {RQuery|string} The current RQuery instance for chaining when setting HTML content, or the current inner HTML when getting.
@@ -94,7 +94,7 @@ class RQuery {
 		}
 	}
 
-		/**
+	/**
 	 * Get or set the text content of the selected element.
 	 * @param {string} [textContent] - Optional text content to set. If not provided, the current text content will be returned.
 	 * @returns {RQuery|string} The current RQuery instance for chaining when setting text content, or the current text content when getting.
@@ -241,6 +241,25 @@ class RQuery {
 
 		return this
 	}
+
+	/**
+	 * Set or get the value of an attribute on the selected element.
+	 * @param {string} attributeName - The name of the attribute to set or get.
+	 * @param {string} [value] - The value to set for the attribute. If not provided, the current value of the attribute will be returned.
+	 * @returns {RQuery|string} The current RQuery instance for chaining (if setting) or the attribute value (if getting).
+	 */
+		attr(attributeName, value) {
+			if (typeof attributeName !== 'string') {
+				throw new Error('Attribute name must be a string')
+			}
+	
+			if (typeof value === 'undefined') {
+				return this.element.getAttribute(attributeName)
+			} else {
+				this.element.setAttribute(attributeName, value)
+				return this
+			}
+		}
 }
 
 /**
