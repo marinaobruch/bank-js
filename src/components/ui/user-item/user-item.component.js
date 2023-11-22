@@ -1,9 +1,9 @@
+import { $R } from '@/core/query/query.lib'
 import ChildComponent from '@/core/component/child.component'
 import renderService from '@/core/services/render.service'
 
 import styles from './user-item.module.scss'
 import template from './user-item.template.html'
-import { $R } from '@/core/query/query.lib'
 
 export class UserItem extends ChildComponent {
 	constructor(user, isGray = false, onClick) {
@@ -24,11 +24,10 @@ export class UserItem extends ChildComponent {
 	}
 
 	// метод будет следить за обновлением авторизации
-	update(avatarPath, name) {
+	update({avatarPath, name}) {
 		if(name && avatarPath)
 		$R(this.element).find("img").attr("src", avatarPath).attr("alt", name)
 		$R(this.element).find("span").text(name)
-
 	}
 
 	render() {
@@ -39,7 +38,7 @@ export class UserItem extends ChildComponent {
 		$R(this.element).click(this.onClick || this.#preventDefault.bind(this))
 
 		if (!this.onClick) $R(this.element).attr("disabled", "")
-		if (!this.isGray) $R(this.element).addClass(styles.gray)
+		if (this.isGray) $R(this.element).addClass(styles.gray)
 		
 		return this.element;
 	}
