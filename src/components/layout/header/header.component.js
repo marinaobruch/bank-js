@@ -6,11 +6,12 @@ import template from './header.template.html'
 import { Logo } from './logo/logo.component'
 import { LogoutButton } from './logout-button/logout-button.component'
 import { Search } from './search/search.component'
-import { UserItem } from '@/components/ui/user-item/user-item.component'
+import { UserItem } from '@/components/ui/user-item/user-item.components'
 
 export class Header extends ChildComponent {
-	constructor() {
+	constructor({router}) {
 		super()
+		this.router = router
 	}
 
 	render() {
@@ -18,7 +19,7 @@ export class Header extends ChildComponent {
 			template,
 			[
 				Logo,
-				new LogoutButton(),
+				new LogoutButton({router: this.router}),
 				Search,
 				new UserItem({
 					avatarPath:
