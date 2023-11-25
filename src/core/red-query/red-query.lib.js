@@ -15,6 +15,9 @@
 
 import { SERVER_URL } from "@/config/url.config"
 import { extractErrorMessage } from "./extract-error-message"
+import { StorageService } from "../services/storage.service"
+import { ACCESS_TOKEN_KEY } from "@/constants/auth.constants"
+import { NotificationService } from "../services/notification.service"
 
 export async function redQuery({
   path,
@@ -27,10 +30,10 @@ export async function redQuery({
   let isLoading = true
   let error = null
   let data = null
-  const url = `${SERVER_URL}/api${path}`
 
   // ACCESS TOKEN
-  const accessToken = ""
+  const url = `${SERVER_URL}/api${path}`
+  const accessToken = new StorageService().getItem(ACCESS_TOKEN_KEY)
 
   const requestOptions = {
     method,
@@ -60,9 +63,12 @@ export async function redQuery({
     } else {
       const errorData = await response.json()
       const errorMessage = extractErrorMessage(errorData)
+
       if(onError) {
         onError(errorMessage)
       }
+
+      new NotificationService().show("error", errorMessage)
     }
 
   } catch (errorData) {
