@@ -28,7 +28,7 @@ export class Layout extends ChildComponent {
 
 		// с помощью append добавляем этот элемент, а с помощью before "закидываем" его выше блока main
 		mainElement
-		.before(new Header().render())
+		.before(new Header({router: this.router}).render())
 		.append(contentContainer.element)
 
 		return this.element
