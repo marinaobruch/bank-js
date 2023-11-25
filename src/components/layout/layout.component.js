@@ -1,10 +1,12 @@
+import { $R } from "@/core/query/query.lib"
+import ChildComponent from "@/core/component/child.component"
 import renderService from "@/core/services/render.service"
 
 import styles from './layout.module.scss'
 import template from "./layout.template.html"
-import { $R } from "@/core/query/query.lib"
+
 import { Header } from "./header/header.component"
-import ChildComponent from "@/core/component/child.component"
+import { Notification } from "./notification/notification.component"
 export class Layout extends ChildComponent {
 	// принимаем пропсы из компонента router через деструктуризацию
 	constructor({ router, children }) {
@@ -15,7 +17,7 @@ export class Layout extends ChildComponent {
 	}
 
 	render() {
-		this.element = renderService.htmlToElement(template, [], styles)
+		this.element = renderService.htmlToElement(template, [Notification], styles)
 
 		// ищем main блок (типа контейнера)
 		const mainElement = $R(this.element).find("main")
