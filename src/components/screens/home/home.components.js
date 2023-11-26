@@ -3,15 +3,18 @@ import renderService from "@/core/services/render.service";
 
 import styles from './home.module.scss'
 import template from "./home.template.html"
+
 import { CardInfo } from "./card-info/card-info.component";
 import { Actions } from "./actions/actions.component";
+import { Contacts } from "./contacts/contacts.component";
+import { Transactions } from "./transactions/transactions.component";
 export class Home extends BaseScreen {
     constructor() {
         // наследование - используем функцию super, чтобы прокинуть аргумент вовнутрь BaseScreen
         super({ title: "Home" })
     }
     render() {
-		const element = renderService.htmlToElement(template,[CardInfo, Actions], styles)
+		const element = renderService.htmlToElement(template,[CardInfo, Actions, Contacts, Transactions], styles)
 
 		return element
     }
