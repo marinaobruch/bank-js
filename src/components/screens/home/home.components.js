@@ -8,13 +8,15 @@ import { CardInfo } from "./card-info/card-info.component";
 import { Actions } from "./actions/actions.component";
 import { Contacts } from "./contacts/contacts.component";
 import { Transactions } from "./transactions/transactions.component";
+import { Statistics } from "./statistics/statistics.component";
+
 export class Home extends BaseScreen {
     constructor() {
         // наследование - используем функцию super, чтобы прокинуть аргумент вовнутрь BaseScreen
         super({ title: "Home" })
     }
     render() {
-		const element = renderService.htmlToElement(template,[CardInfo, Actions, Contacts, Transactions], styles)
+		const element = renderService.htmlToElement(template,[CardInfo, Actions, Contacts, Transactions, Statistics], styles)
 
 		return element
     }
