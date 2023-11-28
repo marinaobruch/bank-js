@@ -1,11 +1,12 @@
 import { redQuery } from '@/core/red-query/red-query.lib'
 import { NotificationService } from '@/core/services/notification.service'
+import { Store } from '@/core/store/store'
 
 export class AuthService {
 	#BASE_URL = '/auth'
 
 	constructor() {
-		// store
+		this.store = Store.getInstance()
     // назначаем экземпляры классов, чтобы их можно было использовать неограниченное количество раз в этом классе
 		this.notificationService = new NotificationService()
 	}
@@ -16,7 +17,7 @@ export class AuthService {
 			path: `${this.#BASE_URL}/${type}`,
 			body,
 			onSuccess: data => {
-				// login store
+				this.store.login(data.user, data.accessToken)
 				this.notificationService.show(
 					'success',
 					'You have successfully logged in!'

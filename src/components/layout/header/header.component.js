@@ -6,12 +6,39 @@ import template from './header.template.html'
 import { Logo } from './logo/logo.component'
 import { LogoutButton } from './logout-button/logout-button.component'
 import { Search } from './search/search.component'
-import { UserItem } from '@/components/ui/user-item/user-item.components'
+import { UserItem } from '@/components/ui/user-item/user-item.component'
+import { Store } from '@/core/store/store'
+import { $R } from '@/core/query/query.lib'
 
 export class Header extends ChildComponent {
 	constructor({router}) {
 		super()
+
+		this.store = Store.getInstance()
+		this.store.addObserver(this)
+
 		this.router = router
+
+		this.UserItem =
+		new UserItem({
+			avatarPath:
+				'/',
+			name: 'Marina'
+		})
+	}
+
+	update() {
+		this.user = this.store.state.user
+
+		const authSideElement = $R(this.element).find('#auth-side')
+
+		if (this.user) {
+			authSideElement.show()
+			this.UserItem.update(this.user)
+			this.router.navigate('/')
+		} else {
+			authSideElement.hide()
+		}
 	}
 
 	render() {
@@ -21,14 +48,12 @@ export class Header extends ChildComponent {
 				Logo,
 				new LogoutButton({router: this.router}),
 				Search,
-				new UserItem({
-					avatarPath:
-						'https://prisma-blog-ebon.vercel.app/blog/posts/type-safe_js_with_JsDoc.png',
-					name: 'Marina'
-				})
+				this.UserItem
 			],
 			styles
 		)
+
+		this.update()
 
 		return this.element
 	}

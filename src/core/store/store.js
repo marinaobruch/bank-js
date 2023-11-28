@@ -13,10 +13,8 @@ export class Store {
 	 * @param {Object} initialState - The initial state for the store.
 	 */
 	constructor(initialState) {
-    // массив слушателей: все компоненты, которые будут подписаны на изменения нашего пользователя
 		this.observers = []
 
-    // получаем здесь юзера
 		this.storageService = new StorageService()
 		const savedUser = this.storageService.getItem(USER_STORAGE_KEY)
 
@@ -37,7 +35,6 @@ export class Store {
 	 * @returns {Store} The singleton instance of the Store.
 	 */
 	static getInstance() {
-    // если у текущего стора нет инстанс, то мы его создаем
 		if (!Store.instance) {
 			Store.instance = new Store({ user: null })
 		}

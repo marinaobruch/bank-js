@@ -8,13 +8,9 @@ class RenderService {
 	 * @returns {HTMLElement}
 	 */
     htmlToElement(html, components = [], styles) {
-        // тег template по сути представляет собой обертку (пустой тег) для будущего кода html
-        const template = document.createElement("template")
-        // далее в template заносит наш html код, который приходит извне как пропс
-        template.innerHTML = html.trim()
-
-        // здесь избавляемся от обертки template, забирая у нее первый Child элемент, что является html элементом (не строка)
-        const element = template.content.firstChild
+		const parser = new DOMParser()
+		const doc = parser.parseFromString(html, 'text/html')
+		const element = doc.body.firstChild
 
         // метод для определения стилей
         if (styles) {
