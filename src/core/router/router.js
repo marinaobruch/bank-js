@@ -79,7 +79,7 @@ export class Router {
 				children: component
 			}).render()
 
-            $R("#app").append(this.#layout)
+            $R("#app").html("").append(this.#layout)
 		} else {
             // здесь мы сначала контент отчищаем html(""), а затем аппендим наш component
             $R("#content").html("").append(component)

@@ -55,7 +55,6 @@ export class Actions extends ChildComponent {
 				const balanceUpdatedEvent = new Event(BALANCE_UPDATED)
 				// dispatchEvent - вызов кастомного события (balanceUpdatedEvent), необходимо для реактивности, чтобы в других элементах приходило обновление, оповещение о том, что были изменения
 				document.dispatchEvent(balanceUpdatedEvent)
-		
 			})
 	
 			$R(event.target).removeAttr('disabled').text(type)		}

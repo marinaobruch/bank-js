@@ -9,6 +9,7 @@ import { $R } from '@/core/query/query.lib'
 import { formatCardNumber } from '@/utils/format/format-card-number'
 import { formatToCurrency } from '@/utils/format/format-to-currency'
 import { BALANCE_UPDATED } from '@/constants/event.constants'
+import { Loader } from '@/components/ui/loader/loader.component'
 
 const CODE = '*****'
 export class CardInfo extends ChildComponent {
@@ -33,7 +34,7 @@ export class CardInfo extends ChildComponent {
 	}
 
 	#onBalanceUpdated = () => {
-		this.fetchData()
+		setTimeout(() => this.fetchData(), 500)
 	}
 
 	destroy() {
@@ -105,7 +106,11 @@ export class CardInfo extends ChildComponent {
 	}
 
 	render() {
-		if (this.store.state.user) this.fetchData()
+		if (this.store.state.user) {
+			$R(this.element).html(new Loader().render().outerHTML)
+			setTimeout(() => this.fetchData(), 500)
+		}
+
 		
 		return this.element;
 	}

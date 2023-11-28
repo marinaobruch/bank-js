@@ -6,7 +6,7 @@ import styles from './search.module.scss'
 import template from './search.template.html'
 
 import { UserService } from '@/api/user.service';
-import { UserItem } from '@/components/ui/user-item/user-item.components';
+import { UserItem } from '@/components/ui/user-item/user-item.component';
 import { debounce } from '@/utils/debounce.util';
 
 export class Search extends ChildComponent {

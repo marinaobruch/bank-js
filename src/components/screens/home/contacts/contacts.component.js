@@ -12,7 +12,7 @@ import template from './contacts.template.html'
 
 import {TRANSFER_FIELD_SELECTOR,TransferField} from './transfer-field/transfer-field.component'
 import { $R } from '@/core/query/query.lib'
-import { UserItem } from '@/components/ui/user-item/user-item.components'
+import { UserItem } from '@/components/ui/user-item/user-item.component'
 
 export class Contacts extends ChildComponent {
 	constructor() {
@@ -60,7 +60,7 @@ export class Contacts extends ChildComponent {
 				.find('#contacts-list')
 				.html(new Loader().render().outerHTML)
 
-			this.fetchData()
+			setTimeout(() => this.fetchData(), 500)
 		}
 
 		return this.element
