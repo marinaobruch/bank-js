@@ -10,7 +10,7 @@ class FormService {
 		const inputs = formElement.querySelectorAll('input')
 		const values = {}
 
-    // объект values наполняем ключами и значениями
+		    // объект values наполняем ключами и значениями
     // ключ равен имени текущего инпута, а значением будет являться его значение
 		for (const input of inputs) {
 			values[input.name] = input.value

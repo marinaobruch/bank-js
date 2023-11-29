@@ -1,15 +1,17 @@
 import ChildComponent from '@/core/component/child.component'
-import { $R } from '@/core/query/query.lib';
+import { $R } from '@/core/query/query.lib'
 import renderService from '@/core/services/render.service'
+
+import { TRANSFER_FIELD_SELECTOR } from '@/components/screens/home/contacts/transfer-field/transfer-field.component'
+import { UserItem } from '@/components/ui/user-item/user-item.component'
+
+import { debounce } from '@/utils/debounce.util'
+import { formatCardNumberWithDashes } from '@/utils/format/format-card-number'
+
+import { UserService } from '@/api/user.service'
 
 import styles from './search.module.scss'
 import template from './search.template.html'
-
-import { UserService } from '@/api/user.service';
-import { UserItem } from '@/components/ui/user-item/user-item.component';
-import { debounce } from '@/utils/debounce.util';
-import { TRANSFER_FIELD_SELECTOR } from '@/components/screens/home/contacts/transfer-field/transfer-field.component';
-import { formatCardNumberWithDashes } from '@/utils/format/format-card-number';
 
 export class Search extends ChildComponent {
 	constructor() {
@@ -17,22 +19,18 @@ export class Search extends ChildComponent {
 		this.userService = new UserService()
 	}
 
-	// делаем стрелочную, чтобы у нас не терялся контекст
-	 #handleSearch = async event => {
-
-		// значение из поискового запроса
+	#handleSearch = async event => {
 		const searchTerm = event.target.value
-		// компонент, где лежат все результаты поиска
-		const searchResultElement = $R(this.element).find("#search-results")
+		const searchResultElement = $R(this.element).find('#search-results')
 
-		// если в поле ввода ничего нет, то и компонент полностью отчищается
-		if(!searchTerm)
-		searchResultElement.html("")
+		if (!searchTerm) {
+			searchResultElement.html('')
+			return
+		}
 
 		await this.userService.getAll(searchTerm, users => {
 			searchResultElement.html('')
 
-			// делаем цикл, на каждой итерации создаем экземпляр с стилями и анимацией
 			users.forEach((user, index) => {
 				const userItem = new UserItem(user, true, () => {
 					$R(TRANSFER_FIELD_SELECTOR).value(
@@ -46,7 +44,6 @@ export class Search extends ChildComponent {
 					.addClass(styles.item)
 					.css('transition-delay', `${index * 0.1}s`)
 
-				// после добавления стилей append-им юзера в поле с результатами
 				searchResultElement.append(userItem)
 
 				setTimeout(() => {
@@ -56,19 +53,20 @@ export class Search extends ChildComponent {
 		})
 	}
 
-
 	render() {
-		this.element = renderService.htmlToElement(template, [], styles);
+		this.element = renderService.htmlToElement(template, [], styles)
 
 		const debouncedHandleSearch = debounce(this.#handleSearch, 300)
 
-		$R(this.element).find('input').input({
-			type: 'search',
-			name: 'search',
-			placeholder: 'Search contacts...'
-		}).on('input', debouncedHandleSearch)
+		$R(this.element)
+			.find('input')
+			.input({
+				type: 'search',
+				name: 'search',
+				placeholder: 'Search contacts...'
+			})
+			.on('input', debouncedHandleSearch)
 
-		
-		return this.element;
+		return this.element
 	}
 }

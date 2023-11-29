@@ -1,6 +1,6 @@
 import ChildComponent from '@/core/component/child.component'
-import renderService from '@/core/services/render.service'
 import { $R } from '@/core/query/query.lib'
+import renderService from '@/core/services/render.service'
 
 import styles from './donut-chart.module.scss'
 import template from './donut-chart.template.html'
@@ -37,7 +37,7 @@ export class DonutChart extends ChildComponent {
 	 * Calculate the total value of all slices.
 	 * @returns {number} The total value.
 	 */
-	// вычисляет общую сумму значений сегментов
+	// вычисляет общую сумму значений сегментов.
 	#calculateTotalValue() {
 		return this.data.reduce((acc, slice) => acc + slice.value, 0)
 	}
@@ -48,7 +48,7 @@ export class DonutChart extends ChildComponent {
 	 * @param {number} radius - The radius of the circle.
 	 * @returns {number[]} The Cartesian coordinates [x, y].
 	 */
-	// преобразует полярные координаты в декартовы координаты
+	// преобразует полярные координаты в декартовы координаты.
 	#polarToCartesian(percentage, radius) {
 		const angleInDegrees = percentage * 3.6 - 90
 		const angleInRadians = (angleInDegrees * Math.PI) / 180
@@ -62,7 +62,6 @@ export class DonutChart extends ChildComponent {
 	 * @returns {SVGElement} The created SVG element.
 	 */
 	#createSvgElement() {
-		// создание свг элемента
 		const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
 
 		svg.setAttribute('width', this.size)
@@ -100,7 +99,7 @@ export class DonutChart extends ChildComponent {
 		return path
 	}
 
-	// создает элементы пути SVG для каждого сегмента диаграммы
+	// создает элементы пути SVG для каждого сегмента диаграммы.
 	#createSvgPathElements(g) {
 		const totalValue = this.#calculateTotalValue(),
 			scale = 0.8,

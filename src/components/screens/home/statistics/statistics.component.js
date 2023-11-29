@@ -1,21 +1,24 @@
 import ChildComponent from '@/core/component/child.component'
+import { $R } from '@/core/query/query.lib'
 import renderService from '@/core/services/render.service'
 import { Store } from '@/core/store/store'
-import { $R } from '@/core/query/query.lib'
 
-import { LOADER_SELECTOR, Loader } from '@/components/ui/loader/loader.component'
 import { Heading } from '@/components/ui/heading/heading.component'
+import {
+	LOADER_SELECTOR,
+	Loader
+} from '@/components/ui/loader/loader.component'
+
+import { formatToCurrency } from '@/utils/format/format-to-currency'
 
 import { StatisticService } from '@/api/statistic.service'
-import { formatToCurrency } from '@/utils/format/format-to-currency'
 
 import styles from './statistics.module.scss'
 import template from './statistics.template.html'
 
-import { TRANSACTION_COMPLETED } from '@/constants/event.constants'
-import { StatisticsItem } from './statistics-item/statistics-item.component'
 import { CircleChart } from './circle-chart/circle-chart.component'
-
+import { StatisticsItem } from './statistics-item/statistics-item.component'
+import { TRANSACTION_COMPLETED } from '@/constants/event.constants'
 
 export class Statistics extends ChildComponent {
 	constructor() {
@@ -47,7 +50,7 @@ export class Statistics extends ChildComponent {
 	}
 
 	#onTransactionCompleted() {
-		setTimeout(() => this.fetchData(), 500)
+		this.fetchData()
 	}
 
 	destroy() {
@@ -101,9 +104,7 @@ export class Statistics extends ChildComponent {
 					).render()
 				)
 
-				circleChartElement.append(
-					this.renderChart(data[0].value, data[1].value)
-				)
+			circleChartElement.append(this.renderChart(data[0].value, data[1].value))
 		})
 	}
 

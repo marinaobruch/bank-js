@@ -12,12 +12,13 @@ export class Loader extends ChildComponent {
 		this.width = width
 		this.height = height
 	}
+
 	render() {
-		this.element = renderService.htmlToElement(template, []);
+		this.element = renderService.htmlToElement(template, [])
 
 		this.element.style = `width: ${this.width}px; height: ${this.height}px`
 		this.element.classList.add('bounce')
-		
-		return this.element;
+
+		return this.element
 	}
 }

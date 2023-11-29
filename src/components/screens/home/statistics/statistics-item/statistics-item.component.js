@@ -1,6 +1,6 @@
 import ChildComponent from '@/core/component/child.component'
-import renderService from '@/core/services/render.service'
 import { $R } from '@/core/query/query.lib'
+import renderService from '@/core/services/render.service'
 
 import styles from './statistics-item.module.scss'
 import template from './statistics-item.template.html'
