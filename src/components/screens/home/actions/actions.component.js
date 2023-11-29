@@ -57,7 +57,8 @@ export class Actions extends ChildComponent {
 				document.dispatchEvent(balanceUpdatedEvent)
 			})
 	
-			$R(event.target).removeAttr('disabled').text(type)		}
+			$R(event.target).removeAttr('disabled').text(type)
+		}
 
 	render() {
 		this.element = renderService.htmlToElement(template, [
