@@ -15,7 +15,7 @@ import template from './transfer-field.template.html'
 
 import {
 	BALANCE_UPDATED,
-	// TRANSACTION_COMPLETED
+	TRANSACTION_COMPLETED
 } from '@/constants/event.constants'
 
 export const TRANSFER_FIELD_SELECTOR = '[name="card-number"]'
@@ -57,11 +57,8 @@ export class TransferField extends ChildComponent {
 			inputElement.value('')
 			amount = ''
 
-			// const transactionUpdatedEvent = new Event(TRANSACTION_COMPLETED)
-			// document.dispatchEvent(transactionUpdatedEvent)
-
-			const balanceUpdatedEvent = new Event(BALANCE_UPDATED)
-			document.dispatchEvent(balanceUpdatedEvent)
+			document.dispatchEvent(new Event(TRANSACTION_COMPLETED))
+			document.dispatchEvent(new Event(BALANCE_UPDATED))
 		})
 
 		reset()
