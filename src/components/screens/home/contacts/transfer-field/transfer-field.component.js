@@ -13,10 +13,10 @@ import { CardService } from '@/api/card.service'
 import styles from './transfer-field.module.scss'
 import template from './transfer-field.template.html'
 
-// import {
-// 	BALANCE_UPDATED,
-// 	TRANSACTION_COMPLETED
-// } from '@/constants/event.constants'
+import {
+	BALANCE_UPDATED,
+	// TRANSACTION_COMPLETED
+} from '@/constants/event.constants'
 
 export const TRANSFER_FIELD_SELECTOR = '[name="card-number"]'
 
@@ -57,9 +57,11 @@ export class TransferField extends ChildComponent {
 			inputElement.value('')
 			amount = ''
 
-			// здесь ошибка при обновлении, в секции с поплнение работает все ок
-			// document.dispatchEvent(new Event(TRANSACTION_COMPLETED))
-			// document.dispatchEvent(new Event(BALANCE_UPDATED))
+			// const transactionUpdatedEvent = new Event(TRANSACTION_COMPLETED)
+			// document.dispatchEvent(transactionUpdatedEvent)
+
+			const balanceUpdatedEvent = new Event(BALANCE_UPDATED)
+			document.dispatchEvent(balanceUpdatedEvent)
 		})
 
 		reset()

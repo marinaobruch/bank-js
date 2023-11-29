@@ -8,6 +8,8 @@ import template from './search.template.html'
 import { UserService } from '@/api/user.service';
 import { UserItem } from '@/components/ui/user-item/user-item.component';
 import { debounce } from '@/utils/debounce.util';
+import { TRANSFER_FIELD_SELECTOR } from '@/components/screens/home/contacts/transfer-field/transfer-field.component';
+import { formatCardNumberWithDashes } from '@/utils/format/format-card-number';
 
 export class Search extends ChildComponent {
 	constructor() {
@@ -33,7 +35,11 @@ export class Search extends ChildComponent {
 			// делаем цикл, на каждой итерации создаем экземпляр с стилями и анимацией
 			users.forEach((user, index) => {
 				const userItem = new UserItem(user, true, () => {
-					searchResultElement.html('') // пока по клику будет просто скрывать поиск
+					$R(TRANSFER_FIELD_SELECTOR).value(
+						formatCardNumberWithDashes(user.card.number)
+					)
+
+					searchResultElement.html('')
 				}).render()
 
 				$R(userItem)

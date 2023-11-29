@@ -3,6 +3,11 @@ import { Router } from "./core/router/router"
 
 new Router()
 
+// настройка .env
+// NODE_ENV=development
+// JWT_SECRET=eregrw9345:ser
+// DATABASE_URL="postgresql://postgres:123456@localhost:5432/bank-app-red-project?schema=public"
+// PORT=4200
 
 // [x] - Установка PostgreSQL
 // [x] - Установка Insomnia + TablePlus

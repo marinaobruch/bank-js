@@ -1,10 +1,14 @@
 import ChildComponent from '@/core/component/child.component'
-import { Store } from '@/core/store/store'
-import { LOADER_SELECTOR, Loader } from '@/components/ui/loader/loader.component'
+import { $R } from '@/core/query/query.lib'
 import renderService from '@/core/services/render.service'
+import { Store } from '@/core/store/store'
 
 import { Heading } from '@/components/ui/heading/heading.component'
-import { $R } from '@/core/query/query.lib'
+import {
+	LOADER_SELECTOR,
+	Loader
+} from '@/components/ui/loader/loader.component'
+
 import { TransactionService } from '@/api/transaction.service'
 
 import styles from './transactions.module.scss'
@@ -42,7 +46,7 @@ export class Transactions extends ChildComponent {
 	}
 
 	#onTransactionCompleted = () => {
-		setTimeout(() => this.fetchData(), 500)
+		this.fetchData()
 	}
 
 	destroy() {
