@@ -1,4 +1,5 @@
 import ChildComponent from '@/core/component/child.component'
+import { $R } from '@/core/query/query.lib'
 import { NotificationService } from '@/core/services/notification.service'
 import renderService from '@/core/services/render.service'
 import validationService from '@/core/services/validation.service'
@@ -12,11 +13,10 @@ import { CardService } from '@/api/card.service'
 import styles from './transfer-field.module.scss'
 import template from './transfer-field.template.html'
 
-import {
-	BALANCE_UPDATED,
-	TRANSACTION_COMPLETED
-} from '@/constants/event.constants'
-import { $R } from '@/core/query/query.lib'
+// import {
+// 	BALANCE_UPDATED,
+// 	TRANSACTION_COMPLETED
+// } from '@/constants/event.constants'
 
 export const TRANSFER_FIELD_SELECTOR = '[name="card-number"]'
 
@@ -57,9 +57,9 @@ export class TransferField extends ChildComponent {
 			inputElement.value('')
 			amount = ''
 
-			// event-ы для общего обновления других
-			document.dispatchEvent(new Event(TRANSACTION_COMPLETED))
-			document.dispatchEvent(new Event(BALANCE_UPDATED))
+			// здесь ошибка при обновлении, в секции с поплнение работает все ок
+			// document.dispatchEvent(new Event(TRANSACTION_COMPLETED))
+			// document.dispatchEvent(new Event(BALANCE_UPDATED))
 		})
 
 		reset()
