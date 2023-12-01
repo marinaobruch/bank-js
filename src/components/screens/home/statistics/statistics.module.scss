@@ -1,5 +1,5 @@
 @import 'src/styles/mixins';
 
 .statistics {
-  @include dashboard-section('small');
+	@include dashboard-section('small');
 }

@@ -2,16 +2,16 @@
 @import 'src/styles/variables';
 
 .contacts {
-  @include dashboard-section('small');
+	@include dashboard-section('small');
 
-  >div:last-child {
-    button {
-      margin-bottom: 1rem;
-      width: 100%;
+	> div:last-child {
+		button {
+			margin-bottom: 1rem;
+			width: 100%;
 
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
 }

@@ -1,19 +1,23 @@
 import ChildComponent from '@/core/component/child.component'
+import { $R } from '@/core/query/query.lib'
 import renderService from '@/core/services/render.service'
+import { Store } from '@/core/store/store'
+
+import { Loader } from '@/components/ui/loader/loader.component'
+
+import { formatCardNumber } from '@/utils/format/format-card-number'
+import { formatToCurrency } from '@/utils/format/format-to-currency'
+
+import { CardService } from '@/api/card.service'
 
 import styles from './card-info.module.scss'
 import template from './card-info.template.html'
-import { CardService } from '@/api/card.service'
-import { Store } from '@/core/store/store'
-import { $R } from '@/core/query/query.lib'
-import { formatCardNumber } from '@/utils/format/format-card-number'
-import { formatToCurrency } from '@/utils/format/format-to-currency'
+
 import { BALANCE_UPDATED } from '@/constants/event.constants'
-import { Loader } from '@/components/ui/loader/loader.component'
 
 const CODE = '*****'
-export class CardInfo extends ChildComponent {
 
+export class CardInfo extends ChildComponent {
 	constructor() {
 		super()
 
@@ -30,11 +34,11 @@ export class CardInfo extends ChildComponent {
 	}
 
 	#removeListeners() {
-		document.removeEventListener(BALANCE_UPDATED, this.onBalanceUpdated)
+		document.removeEventListener(BALANCE_UPDATED, this.#onBalanceUpdated)
 	}
 
 	#onBalanceUpdated = () => {
-		setTimeout(() => this.fetchData(), 500)
+		this.fetchData()
 	}
 
 	destroy() {
@@ -63,36 +67,30 @@ export class CardInfo extends ChildComponent {
 		)
 
 		$R(this.element)
-			// обращаемся ко всем первым div-ам на первом уровне
 			.findAll(':scope > div')
 			.forEach(child => {
 				child.addClass('fade-in')
 			})
 
-			// инфо по карте, добавляем стили и опцию копирования при клике
 		$R(this.element)
 			.find('#card-number')
 			.text(formatCardNumber(this.card.number))
 			.click(this.#copyCardNumber.bind(this))
 
-			// добавляем дату окончания
 		$R(this.element).find('#card-expire-date').text(this.card.expireDate)
 
 		const cardCvcElement = $R(this.element).find('#card-cvc')
 		cardCvcElement.text(CODE).css('width', '44px')
 
-		// элемент cvc, при клике работает toggle - показ/скрытие
 		$R(this.element)
 			.find('#toggle-cvc')
 			.click(this.#toggleCvc.bind(this, cardCvcElement))
 
-			// добавляем баланс с форматированием цифр
 		$R(this.element)
 			.find('#card-balance')
 			.text(formatToCurrency(this.card.balance))
 	}
 
-	// делаем запрос на получение юзера и запускаем метод fillElements и добавляем в стор данные
 	fetchData() {
 		this.cardService.byUser(data => {
 			if (data?.id) {
@@ -111,7 +109,6 @@ export class CardInfo extends ChildComponent {
 			setTimeout(() => this.fetchData(), 500)
 		}
 
-		
-		return this.element;
+		return this.element
 	}
 }

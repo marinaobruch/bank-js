@@ -1,88 +1,71 @@
-import ChildComponent from "../component/child.component"
+import ChildComponent from '../component/child.component'
 
 class RenderService {
-    /**
+	/**
 	 * @param {string} html
 	 * @param {Array} components
 	 * @param {Object} [styles]
 	 * @returns {HTMLElement}
 	 */
-    htmlToElement(html, components = [], styles) {
+	htmlToElement(html, components = [], styles) {
 		const parser = new DOMParser()
 		const doc = parser.parseFromString(html, 'text/html')
 		const element = doc.body.firstChild
 
-        // метод для определения стилей
-        if (styles) {
+		if (styles) {
 			this.#applyModuleStyles(styles, element)
 		}
 
-        // метод будет принимать element, с которым нужно работать и в которым будем всё вкладывать, и components, которые будут задействованы в этом компоненте
-        this.#replaceComponentTags(element, components)
+		this.#replaceComponentTags(element, components)
 
-        return element
-    }
+		return element
+	}
 
-    /**
+	/**
 	 * @param {HTMLElement} parentElement
 	 * @param {Array} components
 	 */
+	#replaceComponentTags(parentElement, components) {
+		const componentTagPattern = /^component-/
+		const allElements = parentElement.getElementsByTagName('*')
 
-    // здесь логика по работе с компонентными тегами типа <component-card></component-card>, мы будем их искать из всех компонентов []
-    // 
-    #replaceComponentTags(parentElement, components) {
-        // регулярное выражение, ^ - начало строки нашего компонента, до "-"
-        const componentTagPattern = /^component-/
-        // ищем все элементы у переданного через пропс parentElement
-        const allElements = parentElement.getElementsByTagName("*")
+		for (const element of allElements) {
+			const elementTagName = element.tagName.toLowerCase()
+			if (componentTagPattern.test(elementTagName)) {
+				const componentName = elementTagName
+					.replace(componentTagPattern, '')
+					.replace(/-/g, '')
 
-        // проверка того, является ли найденный элемент компонентом, заданным выше в паттерне
-        for (const element of allElements) {
-            const elementTagName = element.tagName.toLowerCase()
+				const foundComponent = components.find(Component => {
+					const instance =
+						Component instanceof ChildComponent ? Component : new Component()
 
-            if (componentTagPattern.test(elementTagName)) {
-                // отчищаем имя тега от "component-", чтобы далее мы могли сравнить имя класса и имя тега
-                const componentName = elementTagName
-                .replace(componentTagPattern, "")
-                .replace(/-/g, "")
+					return instance.constructor.name.toLowerCase() === componentName
+				})
 
-                // ищем из всех переданных компонентов текущий элемент, который будет отрисовываться
-                const foundComponent = components.find(Component => {
-                    // проверка для того, является ли компонент динамическим(вызван как new heading("Title"))
-                    // т.е. если ранее экземпляр уже развернули, оставляем его: (Component), если нет то создаем: new Component()
-                    const instance = Component instanceof ChildComponent ? Component: new Component()
-                    // constructor.name - название класса (Home / Auth ...)
-                    return instance.constructor.name.toLowerCase() === componentName
-                })
+				if (foundComponent) {
+					const componentContent =
+						foundComponent instanceof ChildComponent
+							? foundComponent.render()
+							: new foundComponent().render()
+					element.replaceWith(componentContent)
+				} else {
+					console.error(
+						`Component "${componentName}" not found in the provided components array.`
+					)
+				}
+			}
+		}
+	}
 
-                if(foundComponent) {
-                    // если является инстанс то, рендерим его, если нет, то создаем экземпляр, а потом делаем рендер
-                    const componentContent = foundComponent instanceof ChildComponent
-                    ? foundComponent.render()
-                    : new foundComponent().render()
-
-                // заменяем элемент на готовый компонент
-                element.replaceWith(componentContent)
-                } else {
-                    console.error(
-                        `Component "${componentName}" not found in the provided components array`
-                    );
-                }
-            }
-        }
-    }
-
-    /**
+	/**
 	 * @param {Object} moduleStyles
 	 * @param {string} element
 	 * @returns {void}
 	 */
-
-    // moduleStyles - модульные стили, сгенерированные модульными классами, element - родительский блок
 	#applyModuleStyles(moduleStyles, element) {
 		if (!element) return
 
-        // функция будет "пробегаться" по массиву всех классов, и если такой класс присутствует, он его заменяет на новый сгенерированный класс
 		const applyStyles = element => {
 			for (const [key, value] of Object.entries(moduleStyles)) {
 				if (element.classList.contains(key)) {
@@ -92,15 +75,22 @@ class RenderService {
 			}
 		}
 
-        // применение стилей для родительского тега
 		if (element.getAttribute('class')) {
 			applyStyles(element)
 		}
 
-        // применение стилей для всех тегов-детей
 		const elements = element.querySelectorAll('*')
 		elements.forEach(applyStyles)
 	}
 }
 
 export default new RenderService()
+
+{
+	/* <div class='home'>
+	<h1 class='text'></h1>
+	<component-heading></component-heading>
+	<component-card-info></component-card-info>
+</div>
+ */
+}

@@ -2,19 +2,19 @@
 @import 'src/styles/variables';
 
 .actions {
-  @include dashboard-section('small');
+	@include dashboard-section('small');
 
-  >label {
-    margin-bottom: 1rem;
-  }
+	> label {
+		margin-bottom: 1rem;
+	}
 
-  >div {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+	> div {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 10px;
 
-    >button {
-      padding: 10px;
-    }
-  }
+		> button {
+			padding: 10px;
+		}
+	}
 }

@@ -1,18 +1,26 @@
 import ChildComponent from '@/core/component/child.component'
+import { $R } from '@/core/query/query.lib'
 import renderService from '@/core/services/render.service'
 import { Store } from '@/core/store/store'
 
 import { Heading } from '@/components/ui/heading/heading.component'
-import {LOADER_SELECTOR, Loader} from '@/components/ui/loader/loader.component'
+import {
+	LOADER_SELECTOR,
+	Loader
+} from '@/components/ui/loader/loader.component'
+import { UserItem } from '@/components/ui/user-item/user-item.component'
+
 import { formatCardNumberWithDashes } from '@/utils/format/format-card-number'
+
 import { UserService } from '@/api/user.service'
 
 import styles from './contacts.module.scss'
 import template from './contacts.template.html'
 
-import {TRANSFER_FIELD_SELECTOR,TransferField} from './transfer-field/transfer-field.component'
-import { $R } from '@/core/query/query.lib'
-import { UserItem } from '@/components/ui/user-item/user-item.component'
+import {
+	TRANSFER_FIELD_SELECTOR,
+	TransferField
+} from './transfer-field/transfer-field.component'
 
 export class Contacts extends ChildComponent {
 	constructor() {
